@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load cms_tags static %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock title %}
+
+{% block content %}
+	<section id="hero">
+    <div class="hero-container">
+      <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+          <!-- Slide 1 -->
+          <div class="carousel-item active" style="background-image: url({% static "img/slide/slide-1.jpg" %});">
+            <div class="carousel-container">
+              <div class="carousel-content container">
+                <h2 class="animated fadeInDown">Bienvenido a <span>Streetflow</span></h2>
+                <p class="animated fadeInUp">Te invitamos a conocer la más avanzada tecnología, aplicada a la medición e identificación de tránsito en vía pública.</p>
+                <a href="/es/streetflow/" class="btn-get-started animated fadeInUp scrollto">Saber más</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-item" style="background-image: url({% static 'img/slide/file.webp' %});">
+            <div class="carousel-container">
+              <div class="carousel-content container">
+                <h2 class="animated fadeInDown">Video analítica e Inteligencia Artificial</h2>
+                <p class="animated fadeInUp">Street Flow es una potente herramienta de medición, multiplataforma y flexible. Gracias a la más avanzada tecnología de Inteligencia Artificial, es capaz de medir con extraordinaria precisión, el flujo vehicular y peatonal en tiempo real. Controlar el acceso a áreas protegidas o vigilar procesos productivos.</p>
+                <a href="/es/streetflow" class="btn-get-started animated fadeInUp scrollto">Saber más</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-item" style="background-image: url({% static 'img/slide/salto.jpeg' %});">
+            <div class="carousel-container">
+              <div class="carousel-content container">
+                <h2 class="animated fadeInDown">«Lo que no se mide, no se puede mejorar»</h2>
+                <p class="animated fadeInUp">Esta frase, atribuida frecuentemente a Peter Drucker. En realidad la frase corresponde a William Thomson Kelvin (Lord Kelvin), físico y matemático británico (1824 – 1907): «Lo que no se define no se puede medir. Lo que no se mide, no se puede mejorar. Lo que no se mejora, se degrada siempre.«.</p>
+                <a href="/es/aplicaciones" class="btn-get-started animated fadeInUp scrollto">Saber más</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon icofont-rounded-left" aria-hidden="true"></span>
+          <span class="sr-only">Previo</span>
+        </a>
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon icofont-rounded-right" aria-hidden="true"></span>
+          <span class="sr-only">Siguiente</span>
+        </a>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+{% endblock content %}

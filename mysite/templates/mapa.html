@@ -1,0 +1,27 @@
+{% load cms_tags menu_tags sekizai_tags static%}
+</head>
+  <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+<body>
+
+  <div id="map"></div>
+<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+<script src="{% static "js/recdata_new.js" %}"></script>
+<script
+    async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxKuTN_37C3dcJWkrlJSAYq1fW_UpKOzQ&callback=initMap">
+    </script>
+</body>
