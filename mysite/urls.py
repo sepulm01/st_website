@@ -12,6 +12,7 @@ from django.views.static import serve
 
 from django.urls import path
 from django.views.generic import TemplateView
+from robot.views import new_descriptor
 
 admin.autodiscover()
 
@@ -20,6 +21,8 @@ urlpatterns = [
         {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
     path('mapa/', TemplateView.as_view(template_name="mapa.html")),
+    path('index/', TemplateView.as_view(template_name="index.html")),
+    path('ajax/descriptores/', new_descriptor, name='new_descriptor'), 
 ]
 
 urlpatterns += i18n_patterns(

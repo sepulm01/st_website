@@ -1,0 +1,221 @@
+
+{% load cms_tags menu_tags sekizai_tags static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="{% static "js/recdata_new.js" %}"></script>
+  <script src="{% static "js/face-api.min.js" %}"></script>
+<!--   <script src="{% static "js/script.js" %}"> -->
+  <style>
+
+  </style>
+</head>
+<body>
+  <h1 id="titulo">Hola</h1>
+  <div class="canvas-placement"><video id="video" width="720" height="560" autoplay muted></video></div>
+  <input type="button" name="boton" value="recordar" onclick="{guarda()}">
+  <input type="button" name="boton" value="check" onclick="{revisa()}">
+
+<div class="btn-group btn-block fixed-top" role="group" aria-label="Basic example" id="botonera_id" value="#id_close_comments" >
+<input type="button" name="boton" value="grabar" id="start-record-btn">
+<input type="button" name="boton" value="pause" id="pause-record-btn">
+<input type="button" name="boton" value="save" id="save-note-btn">
+</div>
+ <div><p id="recording-instructions"></p></div> 
+
+</body>
+{% csrf_token %}
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<!-- Scrip de voz a texto -->
+<script src="{% static 'js/voz2txt.js' %}"></script>
+
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/p5.sound.js' %}"></script>
+<!--    <script type="text/javascript" src="{% static 'js/sketch.js' %}"></script>  -->
+ 
+  
+
+<script type="text/javascript">
+
+///// AJAX  - INICIO ////////////////////
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+    $('.loader').show();
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    },
+      complete: function(){
+     $('.loader').hide();
+  },
+  success: function() {
+  //$('#loader').hide();
+}
+});
+///// AJAX - FIN /////////////// 
+
+// function downloadObject(obj, filename){
+//   var blob = new Blob([JSON.stringify(obj, null, 2)], {type: "application/json;charset=utf-8"}).slice(2,-1);
+//   var url = URL.createObjectURL(blob);
+//   var elem = document.createElement("a");
+//   elem.href = url;
+//   elem.download = filename;
+//   document.body.appendChild(elem);
+//   elem.click();
+//   document.body.removeChild(elem);
+// }
+
+var rec = 0
+var name = "nadie"
+var desc = ""
+var sexo = ""
+var anos = ""
+
+function guarda(){
+  rec = 1
+  readOutLoud("¿Me puedes decir tu nombre por favor?")
+  envia_desc(name, desc, rec, sexo, anos)
+  console.log('Recorad@:', name)
+  }
+
+const video = document.getElementById('video')
+const isScreenSmall = window.matchMedia("(max-width: 700px)");
+let predictedAges = [];
+console.log("cargando los modelos")
+Promise.all([
+  faceapi.nets.tinyFaceDetector.loadFromUri('{% static '/models' %}'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('{% static '/models' %}'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('{% static '/models' %}'),
+  faceapi.nets.faceExpressionNet.loadFromUri('{% static '/models' %}'),
+  faceapi.nets.ageGenderNet.loadFromUri('{% static '/models' %}'),
+  //faceapi.nets.ssdMobilenetv1.loadFromUri('{% static '/models' %}')
+]).then(startVideo)
+//console.log(faceapi.nets)
+function startVideo() {
+  navigator.getUserMedia(
+    { video: {} },
+    stream => video.srcObject = stream,
+    err => console.error(err)
+  )
+}
+function screenResize(isScreenSmall) {
+  if (isScreenSmall.matches) {
+    // If media query matches
+    video.style.width = "320px";
+  } else {
+    video.style.width = "500px";
+  }
+}
+
+video.addEventListener('play', () => {
+  const canvas = faceapi.createCanvasFromMedia(video)
+  //document.body.append(canvas)
+  canvas.style.position = "absolute";
+  canvas.style.left = "5px";
+  //canvas.style.top = "0px";
+  canvas.style.zIndex = "100";
+  $('.canvas-placement').append(canvas);
+  const displaySize = { width: video.width, height: video.height }
+  faceapi.matchDimensions(canvas, displaySize)
+  // Loop sobre el video cada 100 milisegundos
+  setInterval(async () => {
+    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptors()
+    const resizedDetections = faceapi.resizeResults(detections, displaySize)
+    const faceMatcher = new faceapi.FaceMatcher(resizedDetections)
+
+    resizedDetections.forEach(fd => {
+        const bestMatch = faceMatcher.findBestMatch(fd.descriptor)
+        //downloadObject(fd.descriptor, 'descriptor.txt')
+        name = bestMatch.toString()
+        desc = fd.descriptor
+        sexo = fd.gender
+        anos = fd.age
+      })
+
+    //revisa()
+
+    var genero = resizedDetections[0].gender;
+    if(genero=="male"){ var genero = "Hombre"} else { var genero = "Mujer"}
+    const edad = parseInt(resizedDetections[0].age)
+    const etiqueta = "Detección básica. "+ genero+", edad: "+edad
+    
+    // var dataURL = canvas.toDataURL('image/png');
+    // var image = new Image();
+    // image.src = dataURL;
+    
+    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+    faceapi.draw.drawDetections(canvas, resizedDetections)
+    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
+    faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
+
+    const box = { x: (video.width*.35), y: 50, width: 10, height: 0   }
+    const drawOptions = {
+      label: etiqueta,
+      lineWidth: 2
+    }
+    const drawBox = new faceapi.draw.DrawBox(box, drawOptions)
+    drawBox.draw(canvas)
+
+    const brand = { x: 10, y: 32, width: 10, height: 0   }
+    const brandOptions = {
+      label: "Brand",
+      lineWidth: 2
+    }
+    const brandBox = new faceapi.draw.DrawBox(brand, brandOptions)
+    brandBox.draw(canvas)
+
+  }, 1000) 
+})
+
+function envia_desc(name, desc, rec, sexo, anos){
+  //console.log("desde func", name, desc)
+  var claves = {
+              'nombre': name,
+              'descriptores' : desc.toString(),
+              'record': rec,
+              'sexo': sexo,
+              'anos': anos,
+              };
+  $.ajax({
+        method: "POST",
+        //'async': false,
+        url: '/ajax/descriptores/',
+        data: claves ,
+        success: function (data){
+        console.log(data);
+        }});
+}
+
+function revisa(){
+  var claves = {
+              'descriptores' : desc.toString(),
+              'sexo': sexo,
+              'anos': anos,
+              };
+    $.ajax({
+        method: "GET",
+        //'async': false,
+        url: '/ajax/descriptores/',
+        data: claves ,
+        success: function (data){
+        console.log(data);
+        $('#titulo').html('Hola '+data.nombre)
+        message = 'Hola '+data.nombre
+        //readOutLoud(message)
+
+        }});
+}
+
+</script>
+
+
+</html>

@@ -180,7 +180,7 @@ INSTALLED_APPS = [
     'djangocms_googlemap',
     'djangocms_video',
     'mysite',
-
+    'robot',
     #'filer',
     #'easy_thumbnails',
     'aldryn_apphooks_config',
