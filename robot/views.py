@@ -9,6 +9,20 @@ import pickle
 import base64
 import face_recognition
 
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+# Create a new chat bot named Charlie
+chatbot = ChatBot('Charlie')
+
+trainer = ChatterBotCorpusTrainer(chatbot)
+
+trainer.train(
+    "chatterbot.corpus.spanish.greetings",
+    #"chatterbot.corpus.spanish.IA"
+)
+
 # Create your views here.
 def new_descriptor(request):
     '''rutina AJAX para almacenar el descriptor.'''
@@ -28,7 +42,7 @@ def new_descriptor(request):
                 np_bytes = base64.b64decode(e.np_field)
                 if len(np_bytes) != 0:
                     np_array = pickle.loads(np_bytes)
-                    print('cara',e,'np_array:',type(np_array),'\ndescrip:',type(descrip))
+                    #print('cara',e,'np_array:',type(np_array),'\ndescrip:',type(descrip))
                     results.append(face_recognition.compare_faces([np_array], descrip, TOLERANCE)[0])
             #print(results, type(persona),persona)
             if True in results:
@@ -91,3 +105,15 @@ def get_descriptor(pid):
     np_bytes = base64.b64decode(desc.np_field)
     np_array = pickle.loads(np_bytes)
     return np_array
+
+def chat_bot(request):
+    if request.method == 'GET':
+        mensaje = request.GET['mensaje']
+        resp = chatbot.get_response(mensaje)
+        print("in:",mensaje,"\nout:",resp, type(resp))
+        #resp = 'Comunicación exitosa!' + mensaje
+        desc = {
+                'respuesta':str(resp),
+                }
+
+    return JsonResponse(desc)

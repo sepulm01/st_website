@@ -45,7 +45,7 @@ recognition.onresult = function(event) {
   // Get a transcript of what was said.
   var transcript = event.results[current][0].transcript;
   console.log('transcript',transcript)
-  //readOutLoud(transcript)
+  readOutLoud(transcript)
 
   // Add the current transcript to the contents of our Note.
   // There is a weird bug on mobile, where everything is repeated twice.

@@ -33,9 +33,9 @@
 <!-- Scrip de voz a texto -->
 <script src="{% static 'js/voz2txt.js' %}"></script>
 
- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
+<!--  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
   <script type="text/javascript" src="{% static 'js/p5.sound.js' %}"></script>
-<!--    <script type="text/javascript" src="{% static 'js/sketch.js' %}"></script>  -->
+   <script type="text/javascript" src="{% static 'js/sketch.js' %}"></script>  -->
  
   
 
@@ -79,6 +79,9 @@ var name = "nadie"
 var desc = ""
 var sexo = ""
 var anos = ""
+var recon = 0
+var same = 0
+var anterior = ""
 
 function guarda(){
   rec = 1
@@ -124,54 +127,76 @@ video.addEventListener('play', () => {
   //canvas.style.top = "0px";
   canvas.style.zIndex = "100";
   $('.canvas-placement').append(canvas);
+
   const displaySize = { width: video.width, height: video.height }
   faceapi.matchDimensions(canvas, displaySize)
   // Loop sobre el video cada 100 milisegundos
   setInterval(async () => {
     const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
-    const faceMatcher = new faceapi.FaceMatcher(resizedDetections)
-
-    resizedDetections.forEach(fd => {
-        const bestMatch = faceMatcher.findBestMatch(fd.descriptor)
-        //downloadObject(fd.descriptor, 'descriptor.txt')
-        name = bestMatch.toString()
-        desc = fd.descriptor
-        sexo = fd.gender
-        anos = fd.age
-      })
-
-    //revisa()
-
-    var genero = resizedDetections[0].gender;
-    if(genero=="male"){ var genero = "Hombre"} else { var genero = "Mujer"}
-    const edad = parseInt(resizedDetections[0].age)
-    const etiqueta = "Detección básica. "+ genero+", edad: "+edad
     
-    // var dataURL = canvas.toDataURL('image/png');
-    // var image = new Image();
-    // image.src = dataURL;
-    
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-    faceapi.draw.drawDetections(canvas, resizedDetections)
-    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-    faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
 
-    const box = { x: (video.width*.35), y: 50, width: 10, height: 0   }
-    const drawOptions = {
-      label: etiqueta,
-      lineWidth: 2
-    }
-    const drawBox = new faceapi.draw.DrawBox(box, drawOptions)
-    drawBox.draw(canvas)
+    if (resizedDetections.length != 0){
+      const faceMatcher = new faceapi.FaceMatcher(resizedDetections)
 
-    const brand = { x: 10, y: 32, width: 10, height: 0   }
-    const brandOptions = {
-      label: "Brand",
-      lineWidth: 2
+
+
+      resizedDetections.forEach(fd => {
+          const bestMatch = faceMatcher.findBestMatch(fd.descriptor)
+          //downloadObject(fd.descriptor, 'descriptor.txt')
+          name = bestMatch.toString()
+          desc = fd.descriptor
+          sexo = fd.gender
+          anos = fd.age
+          //console.log(name, bestMatch)
+        })
+
+      if (recon==0){
+        revisa()
+
+        recon = 1
+
+      }
+
+
+
+      var genero = resizedDetections[0].gender;
+      if(genero=="male"){ var genero = "Hombre"} else { var genero = "Mujer"}
+      const edad = parseInt(resizedDetections[0].age)
+      const etiqueta = "Detección básica. "+ genero+", edad: "+edad
+      
+      // var dataURL = canvas.toDataURL('image/png');
+      // var image = new Image();
+      // image.src = dataURL;
+      
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+      faceapi.draw.drawDetections(canvas, resizedDetections)
+      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
+      faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
+
+      const box = { x: (video.width*.35), y: 50, width: 10, height: 0   }
+      const drawOptions = {
+        label: etiqueta,
+        lineWidth: 2
+      }
+      const drawBox = new faceapi.draw.DrawBox(box, drawOptions)
+      drawBox.draw(canvas)
+
+      const brand = { x: 10, y: 32, width: 10, height: 0   }
+      const brandOptions = {
+        label: "Brand",
+        lineWidth: 2
+      }
+      const brandBox = new faceapi.draw.DrawBox(brand, brandOptions)
+      brandBox.draw(canvas)
+
+    } else {
+      if (recon==1){
+        recognition.stop();
+      }
+      recon = 0
+
     }
-    const brandBox = new faceapi.draw.DrawBox(brand, brandOptions)
-    brandBox.draw(canvas)
 
   }, 1000) 
 })
@@ -196,6 +221,7 @@ function envia_desc(name, desc, rec, sexo, anos){
 }
 
 function revisa(){
+  recognition.stop();
   var claves = {
               'descriptores' : desc.toString(),
               'sexo': sexo,
@@ -209,9 +235,13 @@ function revisa(){
         success: function (data){
         console.log(data);
         $('#titulo').html('Hola '+data.nombre)
-        message = 'Hola '+data.nombre
-        //readOutLoud(message)
-
+        console.log("compara",data.nombre, anterior)
+        if (data.nombre != anterior){
+         message = 'Hola '+data.nombre
+        readOutLoud(message) 
+        }
+        recognition.start();
+        anterior = data.nombre
         }});
 }
 

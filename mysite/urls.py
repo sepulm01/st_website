@@ -12,7 +12,7 @@ from django.views.static import serve
 
 from django.urls import path
 from django.views.generic import TemplateView
-from robot.views import new_descriptor
+from robot.views import new_descriptor, chat_bot
 
 admin.autodiscover()
 
@@ -22,7 +22,9 @@ urlpatterns = [
     url(r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
     path('mapa/', TemplateView.as_view(template_name="mapa.html")),
     path('index/', TemplateView.as_view(template_name="index.html")),
+    path('index2/', TemplateView.as_view(template_name="index2.html")),
     path('ajax/descriptores/', new_descriptor, name='new_descriptor'), 
+    path('ajax/chat/', chat_bot, name='chat_bot'),
 ]
 
 urlpatterns += i18n_patterns(
