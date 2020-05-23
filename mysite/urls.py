@@ -23,6 +23,7 @@ urlpatterns = [
     path('mapa/', TemplateView.as_view(template_name="mapa.html")),
     path('index/', TemplateView.as_view(template_name="index.html")),
     path('index2/', TemplateView.as_view(template_name="index2.html")),
+    path('robot/', TemplateView.as_view(template_name="robot.html")),
     path('ajax/descriptores/', new_descriptor, name='new_descriptor'), 
     path('ajax/chat/', chat_bot, name='chat_bot'),
 ]

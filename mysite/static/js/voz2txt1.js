@@ -1,180 +1,27 @@
-{% extends "base.html" %}
-{% load cms_tags static %}
+$(document).ready(function() {
+///// AJAX  - INICIO ////////////////////
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
 
-{% block title %}{% page_attribute "page_title" %}{% endblock title %}
-
-{% block content %}
-
-<!DOCTYPE html>
-<html class="no-js consumer" lang="es-CL">
-  <head>
-
-    <script >
-(function(e, p){
-    var m = location.href.match(/platform=(win8|win|mac|linux|cros)/);
-    e.id = (m && m[1]) ||
-           (p.indexOf('Windows NT 6.2') > -1 ? 'win8' : p.indexOf('Windows') > -1 ? 'win' : p.indexOf('Mac') > -1 ? 'mac' : p.indexOf('CrOS') > -1 ? 'cros' : 'linux');
-    e.className = e.className.replace(/\bno-js\b/,'js');
-    if (browser.name === 'Chrome' && browser.version > 26) { console.log("cumple")} // Chrome 0.1 - 25.9
-    console.log(e.className, e.id)
-  })(document.documentElement, window.navigator.userAgent)
-    </script>
-    <meta charset="utf-8">
-    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
-    <meta content=
-    "Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
-    name="description">
-    <title>
-      Ventana
-    </title>
-
-    <style>
-    #info {
-    font-size: 20px;
-    }
-    #div_start {
-    float: right;
-    }
-    #headline {
-    text-decoration: none
-    }
-    #results {
-    font-size: 14px;
-    font-weight: bold;
-    border: 1px solid #ddd;
-    padding: 15px;
-    text-align: left;
-    min-height: 50px;
-    }
-    #start_button {
-    border: 0;
-    background-color:transparent;
-    padding: 0;
-    }
-    .interim {
-    color: gray;
-    }
-    .final {
-    color: blue;
-    padding-right: 3px;
-    }
-    .button {
-    display: none;
-    }
-    .marquee {
-    margin: 20px auto;
-    }
-
-    #buttons {
-    margin: 10px 0;
-    position: relative;
-    top: -50px;
-    }
-
-    #copy {
-    margin-top: 20px;
-    }
-
-    #copy > div {
-    display: none;
-    margin: 0 70px;
-    }
-
-    .pids-wrapper{
-    width: 50%;
-    }
-
-    .pid{
-      width: calc(8% - 10px);
-      height: 10px;
-      display: inline-block;
-      margin: 3px;
-    }
-    </style>
-    <style>
-    a.c1 {font-weight: normal;}
-    </style>
-<script src="{% static "js/face-api.min.js" %}"></script>
-
-  </head>
-
-  <body class="" id="grid">
+    beforeSend: function(xhr, settings) {
+    $('.loader').show();
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    },
+      complete: function(){
+     $('.loader').hide();
+  },
+  success: function() {
+  //$('#loader').hide();
+}
+});
 
 
-    <h1> Asistente de ventas </h1>
-    <h2 id="titulo"> Hola </h2>
-    <div class="canvas-placement"><video id="video" width="720" height="560" autoplay muted></video></div>
-  <input type="button" name="boton" value="recordar" onclick="{guarda()}">
-  <input type="button" name="boton" value="check" onclick="{revisa()}">
-    <div class="browser-landing" id="main">
-      <div class="compact marquee-stacked" id="marquee">
-        <div class="marquee-copy">
-
-        </div>
-      </div>
-      <div class="compact marquee">
-        <div id="info">
-          <p id="info_start">
-            Haga clic en el icono del micrófono y comience a hablar.
-          </p>
-          <p id="info_speak_now" style="display:none">
-            Hable ahora.
-          </p>
-          <p id="info_no_speech" style="display:none">
-            No se detectó el habla. Es posible que deba ajustar su <a href=
-            "//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">microphone
-            settings</a>.
-          </p>
-          <p id="info_no_microphone" style="display:none">
-            No se encontró ningún micrófono. Asegúrese de que haya un micrófono instalado y que
-            <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-            microphone settings</a> están configurados correctamente.
-          </p>
-          <p id="info_allow" style="display:none">
-            Haga clic en el botón "Permitir" arriba para habilitar su micrófono.
-          </p>
-          <p id="info_denied" style="display:none">
-            Se denegó el permiso para usar el micrófono.
-          </p>
-          <p id="info_blocked" style="display:none">
-            El permiso para usar el micrófono está bloqueado. Para cambiar, ve a
-            chrome://settings/contentExceptions#media-stream
-          </p>
-          <p id="info_upgrade" style="display:none">
-            Web Speech API no es compatible con este navegador. Actualizar a <a href=
-            "//www.google.com/chrome">Chrome</a> versión 25 or superior.
-          </p>
-        </div>
-        <div id="div_start">
-          <button id="start_button" onclick="startButton(event)"><img alt="Start" id="start_img"
-          src='{% static "/img/mic.gif" %}'></button>  
-        </div>
-        <div id="results">
-          <span class="final" id="final_span"></span> <span class="interim" id=
-          "interim_span"></span>
-        </div>
-
-        <div class="pids-wrapper">
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-  <div class="pid"></div>
-</div>
-      </div>
-    </div>  
-
-
-
-{% csrf_token %}
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
-<script >
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
@@ -323,8 +170,6 @@ function showButtons(style) {
 
 var speech = new SpeechSynthesisUtterance();
 function readOutLoud(message) {
-  
-
   // Set the text and voice attributes.
   speech.text = message;
   speech.volume = 1;
@@ -332,40 +177,16 @@ function readOutLoud(message) {
   speech.pitch = 1;
   speech.lang = "es-CL";
   hablando = true
+  recognition.stop();
   window.speechSynthesis.speak(speech);
   speech.onend = function() {
     hablando = false
   console.log('speech.onend');
-  //setTimeout(function(){ startButton(speech); }, 600);
-  
-  
   }
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-
-///// AJAX  - INICIO ////////////////////
-var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-    $('.loader').show();
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    },
-      complete: function(){
-     $('.loader').hide();
-  },
-  success: function() {
-  //$('#loader').hide();
-}
-});
-
 
 var rec = 0
 var name = "nadie"
@@ -373,8 +194,8 @@ var desc = ""
 var sexo = ""
 var anos = ""
 var recon = 0
-var same = 0
 var anterior = ""
+var caras = 0
 
 
 function guarda(){
@@ -404,31 +225,32 @@ function startVideo() {
     err => console.error(err)
   )
 }
-function screenResize(isScreenSmall) {
-  if (isScreenSmall.matches) {
-    // If media query matches
-    video.style.width = "320px";
-  } else {
-    video.style.width = "500px";
-  }
-}
 
 video.addEventListener('play', () => {
   const canvas = faceapi.createCanvasFromMedia(video)
   //document.body.append(canvas)
   canvas.style.position = "absolute";
-  canvas.style.left = "5px";
-  //canvas.style.top = "0px";
-  canvas.style.zIndex = "100";
+  canvas.style.left = "0";
+  canvas.style.top = "0";
+  canvas.style.zIndex = "10";
   $('.canvas-placement').append(canvas);
+
+//   function resize_canvas(element)
+// {
+//   var w = element.offsetWidth;
+//   var h = element.offsetHeight;
+//   var cv = document.getElementById("cv1");
+//   cv.width = w;
+//   cv.height =h;
+//  }
 
   const displaySize = { width: video.width, height: video.height }
   faceapi.matchDimensions(canvas, displaySize)
+
   // Loop sobre el video cada 100 milisegundos
   setInterval(async () => {
-    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptors()
+    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({inputSize: 512, scoreThreshold:0.75})).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
-    
     if (resizedDetections.length != 0){
       const faceMatcher = new faceapi.FaceMatcher(resizedDetections)
 
@@ -451,11 +273,7 @@ video.addEventListener('play', () => {
       if(genero=="male"){ var genero = "Hombre"} else { var genero = "Mujer"}
       const edad = parseInt(resizedDetections[0].age)
       const etiqueta = "Detección básica. "+ genero+", edad: "+edad+", nombre: "+ anterior; 
-      
-      // var dataURL = canvas.toDataURL('image/png');
-      // var image = new Image();
-      // image.src = dataURL;
-      
+           
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
       faceapi.draw.drawDetections(canvas, resizedDetections)
       faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
@@ -490,6 +308,7 @@ video.addEventListener('play', () => {
 
 function envia_desc(name, desc, rec, sexo, anos){
   //console.log("desde func", name, desc)
+  console.log(csrftoken)
   var claves = {
               'nombre': name,
               'descriptores' : desc.toString(),
@@ -521,10 +340,12 @@ function revisa(){
         data: claves ,
         success: function (data){
         //console.log(data);
-        $('#titulo').html('Hola '+data.nombre)
+        
         //console.log("compara",data.nombre, anterior)
         if (data.nombre != anterior){
-         message = 'Hola '+data.nombre
+
+         message = 'Hola '+data.nombre+", Qué bebida deseas tomar?"
+         $('#titulo').html(message)
         readOutLoud(message)
         }
         
@@ -551,16 +372,6 @@ function chat_bot(mensaje){
 
 ///////////////// microfono /////////////////////////////////////////
 
-// recognition.onstart = function() {
-//   escuchando = true
-//   console.log('escuchando true');
-// }
-
-// recognition.onend = function() {
-//   escuchando = false
-//   console.log('escuchando false');
-// }
-
 navigator.mediaDevices.getUserMedia({ audio: true, video: true })
 .then(function(stream) {
   audioContext = new AudioContext();
@@ -586,10 +397,9 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true })
 
       var average = values / length;
 
-    //console.log(Math.round(average));
      mic_volume = Math.round(average)
      colorPids(average);
-     if ( recognizing==false && hablando == false &&  mic_volume > 10){
+     if ( recognizing==false && hablando == false &&  mic_volume > 10 && recon==1){
      startButton(mic_volume)
      console.log('recognizing', recognizing, 'hablando',hablando);
       }
@@ -608,32 +418,9 @@ function colorPids(vol) {
     all_pids[i].style.backgroundColor="#e6e7e8";
   }
   for (var i = 0; i < elem_range.length; i++) {
-
     // console.log(elem_range[i]);
     elem_range[i].style.backgroundColor="#69ce2b";
   }
 }
 
-
-
-// [
-//  'onaudiostart',
-//  'onaudioend',
-//  'onend',
-//  'onerror',
-//  'onnomatch',
-//  'onresult',
-//  'onsoundstart',
-//  'onsoundend',
-//  'onspeechend',
-//  'onstart'
-// ].forEach(function(eventName) {
-//     recognition[eventName] = function(e) {
-//         //console.log(eventName, e);
-//     };
-// });
-
-    </script>
-  </body>
-  {% endblock content %}
-</html>
+});

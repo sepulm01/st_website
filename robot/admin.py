@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Descriptor, Persona
+from .models import Descriptor, Persona, Compras
 
 # Register your models here.
 
@@ -18,3 +18,8 @@ class DescInline(admin.TabularInline):
 class PersonaAdmin(admin.ModelAdmin):
     list_display = ['pid','nombre','edad','sexo']
     inlines = [DescInline, ]
+
+@admin.register(Compras)
+class ComprasAdmin(admin.ModelAdmin):
+    list_display = ['cid','persona','producto','cant','Fecha']
+    

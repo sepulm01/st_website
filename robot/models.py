@@ -24,3 +24,9 @@ class Descriptor(models.Model):
     user_foto = models.ImageField(upload_to=my_awesome_upload_function, null=True,blank=True,)
     np_field = models.BinaryField()
 
+class Compras(models.Model):
+    cid = models.AutoField(primary_key=True)
+    persona =models.ForeignKey('Persona', on_delete=models.CASCADE)
+    producto = models.CharField("Producto",max_length=20)
+    cant = models.IntegerField("Cantidad", default=1)
+    Fecha = models.DateTimeField('Fecha',auto_now_add=True)

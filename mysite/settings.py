@@ -222,6 +222,7 @@ CMS_TEMPLATES = (
     ('sidebar_right.html', 'Sidebar Right'),
     ('hero.html', 'hero'),
     ('blog.html', 'blog'),
+    ('robot.html', 'robot'),
 )
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -254,3 +255,5 @@ META_USE_SITES = True
 META_USE_OG_PROPERTIES=True
 META_USE_TWITTER_PROPERTIES=True
 META_USE_GOOGLEPLUS_PROPERTIES=True
+
+#CSRF_FAILURE_VIEW=True
