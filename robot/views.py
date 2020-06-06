@@ -9,9 +9,9 @@ import pickle
 import base64
 import face_recognition
 
-from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
-from chatterbot.trainers import ChatterBotCorpusTrainer
+#from chatterbot import ChatBot
+#from chatterbot.trainers import ListTrainer
+#from chatterbot.trainers import ChatterBotCorpusTrainer
 
 import re
 import pytz
@@ -19,18 +19,18 @@ from django.db.models.functions import Trunc
 
 SCL = pytz.timezone('America/Santiago')
 # Create a new chat bot named Charlie
-chatbot = ChatBot('Exact Response Example Bot', 
-    logic_adapters=[
-        {
-            'import_path': 'chatterbot.logic.BestMatch'
-        },
-        {
-            'import_path': 'chatterbot.logic.SpecificResponseAdapter',
-            'input_text': 'ayuda',
-            'output_text': 'Ok, here is a link: http://chatterbot.rtfd.org'
-        }
-    ]
-    )
+#chatbot = ChatBot('Exact Response Example Bot', 
+    # logic_adapters=[
+    #     {
+    #         'import_path': 'chatterbot.logic.BestMatch'
+    #     },
+    #     {
+    #         'import_path': 'chatterbot.logic.SpecificResponseAdapter',
+    #         'input_text': 'ayuda',
+    #         'output_text': 'Ok, here is a link: http://chatterbot.rtfd.org'
+    #     }
+    # ]
+    # )
 # trainer = ChatterBotCorpusTrainer(chatbot)
 # trainer.train(
 #     "chatterbot.corpus.spanish.greetings",
