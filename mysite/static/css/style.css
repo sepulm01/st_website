@@ -1411,3 +1411,61 @@ section {
   top: 0;
   border-width: 11px 0 11px 11px;
   }
+
+
+/*--------------------------------------------------------------
+# Animaciones ST
+--------------------------------------------------------------*/
+.pagar {
+  width: 0px;
+  height: 0px;
+  
+  position: relative;
+  animation-name: pagar;
+  animation-duration: 2s;
+}
+
+.shake {
+  width: 0px;
+  height: 0px;
+  margin: 0px;
+  position: relative;
+  animation-name: shake;
+  animation-duration: 2s;
+  animation-delay: 2s;
+}
+
+.lata {
+  width: 0px;
+  height: 0px;
+  background-color: red;
+  position: relative;
+  animation-name: lata;
+  animation-duration: 2s;
+  animation-delay: 4s;
+}
+
+@keyframes pagar {
+  0%   { left:0px; top:0px;}
+  50%  { left:200px; top:0px;}
+  100% { left:0px; top:0px;}
+}
+
+@keyframes lata {
+  0%   { left:0px; top:0px;}
+  100% { left:200px; top:0px;}
+}
+
+@keyframes shake {
+  0%   { left:0px; top:0px;}
+  10%   { left:20px; top:0px;}
+  20%   { left:0px; top:0px;}
+  30%   { left:30px; top:0px;}
+  40%   { left:0px; top:0px;}
+  50%   { left:20px; top:0px;}
+  60%   { left:0px; top:0px;}
+  70%   { left:10px; top:0px;}
+  80%   { left:0px; top:0px;}
+  90%   { left:30px; top:0px;}
+  100%  {left:0px; top:0px;}
+}

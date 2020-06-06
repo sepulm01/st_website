@@ -31,12 +31,7 @@ chatbot = ChatBot('Exact Response Example Bot',
         }
     ]
     )
-
-
-
-
 # trainer = ChatterBotCorpusTrainer(chatbot)
-
 # trainer.train(
 #     "chatterbot.corpus.spanish.greetings",
 #     #"chatterbot.corpus.spanish.IA"

@@ -14,7 +14,7 @@
     console.log(e.className, e.id)
   })(document.documentElement, window.navigator.userAgent)
     </script>
-
+    <link href='{% static "css/jm.spinner.css" %}'  rel="stylesheet" type="text/css">
     <style>
     #info {
     font-size: 20px;
@@ -73,8 +73,10 @@
     <style>
     a.c1 {font-weight: normal;}
     </style>
+
     <script src="{% static "js/face-api.min.js" %}"></script>
 </head>
+
 
 <div id="ini1" class="container">
     <h1> Asistente de vending machine</h1>
@@ -174,12 +176,9 @@
     </div>
 </div>
 
-<div id="ini2" class="container" style="display: none;">
-  Muchas gracias por su compra :)
-</div>
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src='{% static "js/jm.spinner.js" %}' ></script>
 {% csrf_token %}
 <script >
 $(document).ready(function() {
@@ -204,6 +203,8 @@ $.ajaxSetup({
   //$('#loader').hide();
 }
 });
+///// AJAX  - FIN ////////////////////
+
 
 var final_transcript = '';
 var recognizing = false;
@@ -486,6 +487,7 @@ video.addEventListener('play', () => {
         recognition.stop();
       }
       recon = 0
+      console.log("Scaniando")
     }
   }, 500) 
 })
@@ -503,7 +505,7 @@ $("#comprar").click(function(){
     comprar(name, desc, rec, sexo, anos, produc);
     message = "Compra producto "+produc+" realizada. Registrando y reiniciando.";
     $('#titulo').html(message);
-    setTimeout(function(){ window.location = "/es/gracias"; }, 3000);
+    setTimeout(function(){ window.location = "/es/gracias"; }, 4000);
 
   });
 
@@ -614,7 +616,7 @@ function chat_bot(mensaje){
           if (data.produc==='comprar'){
             if (produc != "None"){
                    $("#comprar").attr('disabled', false);
-                   $("#"+produc).click()
+                   $("#comprar").click()
             } else {
               console.log("Elija producto");
               data.respuesta = "Elija producto primero."
@@ -688,6 +690,8 @@ function colorPids(vol) {
 }
 
 });
+
+//$('.canvas-placement').jmspinner('large')
 </script>
 
 {% endblock content %}

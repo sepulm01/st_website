@@ -190,6 +190,7 @@ INSTALLED_APPS = [
     'meta',
     'sortedm2m',
     'djangocms_blog',
+    'meds',
 ]
 
 LANGUAGES = (
