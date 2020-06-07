@@ -33,7 +33,7 @@
     <p></p>
     <div class="container">
         <div class="row">
-            <div class="col col-sm-12 col-lg-8">
+            <div class="col col-sm-12 col-lg-10">
                 {% if post.app_config.use_placeholder %}
                     <div class="blog-content">{% render_placeholder post.content %}</div>
                 {% else %}
@@ -43,7 +43,7 @@
                     {% include "liveblog/includes/post_detail.html" %}
                 {% endif %}
             </div>
-            <div class="col col-lg-4">
+<!--             <div class="col col-lg-4">
                 <aside id="nvb5_subscribe_widget-2" class="widget NVB5_Subscribe_Widget">
                     <div class="subscribe-wrapper">
                         <a href="https://www.nvidia.com/en-us/gtc/" >
@@ -51,7 +51,7 @@
                         </a>
                     </div>
                 </aside>
-            </div>
+            </div> -->
         </div>
     </div>
     {% if post.related.exists %}
