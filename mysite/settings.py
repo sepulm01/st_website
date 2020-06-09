@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'x2^4ab%-qhpzd8&6r3r4m!w@9l6z=%-cq45pa-2_wufs147abz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['35.188.6.145', '127.0.0.1', 'www.streetflow.cl']
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
@@ -8,6 +8,8 @@ import numpy as np
 import pickle
 import base64
 import face_recognition
+
+from django.template import RequestContext
 
 #from chatterbot import ChatBot
 #from chatterbot.trainers import ListTrainer
@@ -38,6 +40,19 @@ SCL = pytz.timezone('America/Santiago')
 # )
 
 # Create your views here.
+def view_404(request, *args, **argv):
+    print("por 404")
+    return render(request,'404.html')
+
+
+def view_500(request, *args, **argv):
+    print("por 500")
+    response = render_to_response('500.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
+
+
 def new_descriptor(request):
     '''rutina AJAX para almacenar el descriptor.'''
     TOLERANCE = 0.6

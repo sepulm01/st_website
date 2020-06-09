@@ -3,7 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from cms.sitemaps import CMSSitemap
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import include, url, handler404, handler500
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
@@ -15,6 +15,8 @@ from django.views.generic import TemplateView
 from robot.views import new_descriptor, chat_bot
 
 admin.autodiscover()
+handler404 = 'robot.views.view_404'
+handler500 = 'robot.views.view_500'
 
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
