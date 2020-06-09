@@ -13,10 +13,15 @@ from django.views.static import serve
 from django.urls import path
 from django.views.generic import TemplateView
 from robot.views import new_descriptor, chat_bot
+from django.utils.functional import curry
+from django.views.defaults import *
 
 admin.autodiscover()
-handler404 = 'robot.views.view_404'
-handler500 = 'robot.views.view_500'
+
+
+handler500 = curry(server_error, template_name='500.html')
+handler404 = curry(page_not_found, template_name='404.html')
+handler403 = curry(permission_denied, template_name='403.html')
 
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
