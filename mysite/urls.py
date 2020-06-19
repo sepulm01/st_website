@@ -33,11 +33,13 @@ urlpatterns = [
     path('robot/', TemplateView.as_view(template_name="robot.html")),
     path('ajax/descriptores/', new_descriptor, name='new_descriptor'), 
     path('ajax/chat/', chat_bot, name='chat_bot'),
+    path('meds/', include('meds.urls')),
 ]
 
 urlpatterns += i18n_patterns(
     url(r'^admin/', admin.site.urls),  # NOQA
     url(r'^', include('cms.urls')),
+
 )
 
 # This is only needed when using runserver.

@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</head>
+<body>
+
+{% include 'meds/navs.html' %}
+<div class="container">
+
+
+<h1>Formulario Ficha Paciente</h1>
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+  <label>Nombre:</label>
+    {{ form.nombre }}
+    <br />
+    <label>Apellido:</label>
+    {{ form.apellido }}
+    <br />
+    <label>Rut:</label>
+    {{ form.rut }}
+    <br />
+    <label>Edad:</label>
+    {{ form.edad }}
+    <br />
+    <label>Sexo:</label>
+    {{ form.sexo }}
+    <br />
+    <label>Sangre:</label>
+    {{ form.sange }}
+    <br />
+    <P>Dirección:</P>
+    <label>País:</label>
+    {{ form.pais }}
+    <br />
+    <label>Región:</label>
+    {{ form.region }}
+    <br />
+            <label>Provincia:</label>
+            <select id="model" name="model" class="form-control">
+                <option value="000">---------</option>
+            </select>
+    <br />
+    <label>Comuna:</label>
+    {{ form.comuna }}
+    <br />
+        <label>Calle:</label>
+    {{ form.calle }}
+    <br />
+    <label>Fono:</label>
+    {{ form.fono }}
+    <br />
+
+    <input type="submit" value="Guardar" class="btn btn-primary">
+  </div>
+</form>
+</div>
+
+<script type="text/javascript">
+var myJson = {{ paises|safe }}
+console.log(myJson)
+
+$.each(myJson.country, function (index, value) {
+$("#country").append('<option value="'+value.id+'">'+value.name+'</option>');
+});
+
+$('#id_pais').on('change', function(){
+console.log($(this).val(),"pais", myJson.country.length);
+for(var i = 0; i < myJson.country.length; i++)
+{
+  if(myJson.country[i].id == $(this).val())
+  {
+     $('#id_region').html('<option value="000">-Seleccione región-</option>');
+     $.each(myJson.country[i].states, function (index, value) {
+        $("#id_region").append('<option value="'+value.id+'">'+value.name+'</option>');
+    });
+  }
+}
+});
+
+$('#id_region').on('change', function(){
+      console.log($(this).val());
+      for(var i = 0; i < myJson.country.length; i++)
+        {
+            for(var j = 0; j < myJson.country[i].states.length; j++) {
+                if(myJson.country[i].states[j].id == $(this).val())
+                {
+                   $('#model').html('<option value="000">-Seleccione provincia</option>');
+                   $.each(myJson.country[i].states[j].cities, function (index, value) {
+                      $("#model").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                }
+            }
+        }
+     });
+
+$('#model').on('change', function(){
+  console.log($(this).val());
+        for(var i = 0; i < myJson.country.length; i++)
+        {
+            for(var j = 0; j < myJson.country[i].states.length; j++) {
+              for(var f = 0; f < myJson.country[i].states[j].cities.length; f++) {
+                if(myJson.country[i].states[j].cities[f].id == $(this).val())
+                {
+                   $('#id_comuna').html('<option value="000">-Seleccione comuna</option>');
+                   $.each(myJson.country[i].states[j].cities[f].comunas, function (index, value) {
+                      $("#id_comuna").append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                }
+              }
+            }
+        }
+
+});
+
+</script>
+
+
+</body>
+</html>
