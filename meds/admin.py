@@ -1,5 +1,5 @@
 from django.contrib import admin
-from meds.models import Paciente, Patologias, Prevision, Alergias, Pais, Region, Prov, Comuna
+from meds.models import *
 # Register your models here.
 
 
@@ -21,3 +21,5 @@ admin.site.register(Region)
 admin.site.register(Prov)
 
 admin.site.register(Comuna)
+
+admin.site.register(Contacto)

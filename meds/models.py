@@ -50,7 +50,7 @@ class Alergias(models.Model):
 class Contacto(models.Model):
     nombre = models.CharField("Nombre",max_length=20)
     fono = models.CharField("Región",max_length=12)
-    parentesco = models.CharField("Nombre",max_length=20)
+    parentesco = models.CharField("Parentesco",max_length=20)
     paciente = models.ForeignKey('Paciente',on_delete=models.PROTECT)
 
 class Medicamentos(models.Model):

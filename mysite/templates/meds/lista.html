@@ -1,0 +1,33 @@
+{% extends "meds/base.html" %}
+{% block content %}
+{%if all_items %}
+<div class="container">
+<table id="contador" class="display nowrap" style="width:100%" >
+	<thead>
+	  	<tr>
+		    <th>Nombre</th>
+		    <th>Apellido</th>
+		    <th>Rut</th>
+		    <th>id</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+  		{% for things in all_items %}
+		<tr>
+			<td> {{things.nombre}}</td>
+			<td>{{things.apellido}}</td> 
+			<td> {{things.rut}}</td>
+
+			<td><a href="{% url 'paciente_upd' things.id%}"><li>{{things.id}}</li></a> </td>
+		</tr>
+	 
+		{% endfor %}	
+	<tbody>
+</table>
+</tbody>
+</div>
+
+{% endif %}
+
+
+{% endblock %}

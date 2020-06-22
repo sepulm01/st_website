@@ -1,0 +1,23 @@
+{% extends "meds/base.html" %}
+{% block content %}
+
+<h2>Contactos del paciente</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                {% for form in formset %}
+                {{form}}
+                <hr>
+                {% endfor %}
+                <input type="submit" name="Registrar">
+            </form>
+                
+        </div>
+    </div>
+    
+</div>
+{% endblock content %}
