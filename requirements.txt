@@ -94,7 +94,7 @@ python-dateutil==2.7.5
 python-debian==0.1.32
 pytz==2020.1
 pyxdg==0.25
-PyYAML==3.13
+PyYAML==5.4
 regex==2020.5.14
 reportlab==3.4.0
 requests==2.18.4
