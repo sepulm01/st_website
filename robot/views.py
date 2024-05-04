@@ -1,4 +1,5 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
+# render_to_response
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
@@ -7,7 +8,7 @@ from robot.models import Persona, Descriptor, Compras
 import numpy as np
 import pickle
 import base64
-import face_recognition
+#import face_recognition
 
 from django.template import RequestContext
 

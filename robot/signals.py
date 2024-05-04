@@ -1,7 +1,7 @@
 from .models import Persona, Descriptor
 from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
-import face_recognition
+#import face_recognition
 import os
 import numpy as np
 import pickle

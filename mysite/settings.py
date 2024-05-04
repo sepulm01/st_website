@@ -28,7 +28,7 @@ SECRET_KEY = 'x2^4ab%-qhpzd8&6r3r4m!w@9l6z=%-cq45pa-2_wufs147abz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['35.188.6.145', '127.0.0.1', 'www.streetflow.cl']
+ALLOWED_HOSTS = ['35.232.69.40', '127.0.0.1', 'www.streetflow.cl', 'streetflow.cl']
 
 
 # Application definition
@@ -191,7 +191,7 @@ INSTALLED_APPS = [
     'meta',
     'sortedm2m',
     'djangocms_blog',
-    'meds',
+
 ]
 
 LANGUAGES = (

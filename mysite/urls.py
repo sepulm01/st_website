@@ -13,15 +13,15 @@ from django.views.static import serve
 from django.urls import path
 from django.views.generic import TemplateView
 from robot.views import new_descriptor, chat_bot
-from django.utils.functional import curry
+#from django.utils.functional import curry
 from django.views.defaults import *
 
 admin.autodiscover()
 
 
-handler500 = curry(server_error, template_name='500.html')
-handler404 = curry(page_not_found, template_name='404.html')
-handler403 = curry(permission_denied, template_name='403.html')
+#handler500 = curry(server_error, template_name='500.html')
+#handler404 = curry(page_not_found, template_name='404.html')
+#handler403 = curry(permission_denied, template_name='403.html')
 
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
@@ -33,7 +33,7 @@ urlpatterns = [
     path('robot/', TemplateView.as_view(template_name="robot.html")),
     path('ajax/descriptores/', new_descriptor, name='new_descriptor'), 
     path('ajax/chat/', chat_bot, name='chat_bot'),
-    path('meds/', include('meds.urls')),
+
 ]
 
 urlpatterns += i18n_patterns(
