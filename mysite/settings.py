@@ -28,26 +28,16 @@ SECRET_KEY = 'x2^4ab%-qhpzd8&6r3r4m!w@9l6z=%-cq45pa-2_wufs147abz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['35.232.69.40', '127.0.0.1', 'www.streetflow.cl', 'streetflow.cl']
-
+ALLOWED_HOSTS = ['173.230.132.122', '127.0.0.1', 'www.streetflow.cl', 'streetflow.cl']
 
 # Application definition
 
-
-
-
-
 ROOT_URLCONF = 'mysite.urls'
-
-
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
 
 
 # Password validation
@@ -95,8 +85,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'mysite', 'static'),
 )
 SITE_ID = 1
-
-
 
 TEMPLATES = [
     {
