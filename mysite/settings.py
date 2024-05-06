@@ -255,17 +255,16 @@ META_USE_GOOGLEPLUS_PROPERTIES=True
 CELERY_TIMEZONE = "America/Santiago"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 600
-CELERY_RESULT_BACKEND = 'django-db'
 
 # Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
 CELERY_BROKER_URL = 'redis://localhost:6379'
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
 CELERY_ACCEPT_CONTENT = ['json']
-#CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
-#ELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_DEFAULT_QUEUE = 'reclamo_q'
+
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_IMPORTS = ('bot_rrss.task',)

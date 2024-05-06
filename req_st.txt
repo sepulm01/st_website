@@ -7,7 +7,7 @@ bs4
 requests
 redis
 django-celery-beat
-django-celery-result
+django-celery-results
 Django
 django-appdata==0.3.2
 django-classy-tags==2.0.0
