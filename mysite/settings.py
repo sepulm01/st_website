@@ -36,9 +36,6 @@ ROOT_URLCONF = 'mysite.urls'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -170,7 +167,7 @@ INSTALLED_APPS = [
     'djangocms_video',
     'mysite',
     'robot',
-    #'filer',
+    'bot_rrss',
     #'easy_thumbnails',
     'aldryn_apphooks_config',
     'parler',
@@ -179,6 +176,8 @@ INSTALLED_APPS = [
     'meta',
     'sortedm2m',
     'djangocms_blog',
+    'django_celery_results',
+    'django_celery_beat',
 
 ]
 
@@ -221,6 +220,9 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'CONN_MAX_AGE': 0,
@@ -248,3 +250,22 @@ META_USE_TWITTER_PROPERTIES=True
 META_USE_GOOGLEPLUS_PROPERTIES=True
 
 #CSRF_FAILURE_VIEW=True
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "America/Santiago"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 600
+CELERY_RESULT_BACKEND = 'django-db'
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379'
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+#CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+#ELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_DEFAULT_QUEUE = 'reclamo_q'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_IMPORTS = ('bot_rrss.task',)
