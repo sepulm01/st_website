@@ -5,6 +5,7 @@ cached-property
 celery
 bs4
 requests
+redis
 django-celery-beat
 django-celery-result
 Django
