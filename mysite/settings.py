@@ -178,6 +178,7 @@ INSTALLED_APPS = [
     'djangocms_blog',
     'django_celery_results',
     'django_celery_beat',
+    'rest_framework',
 
 ]
 
@@ -268,3 +269,7 @@ CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_IMPORTS = ('bot_rrss.task',)
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+}

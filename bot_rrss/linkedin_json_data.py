@@ -4,7 +4,7 @@ import json
 # Define your LinkedIn API endpoint and access token
 API_ENDPOINT = "https://api.linkedin.com/v2/ugcPosts"
 API_ENDPOINT_1 = "https://api.linkedin.com/v2/assets?action=registerUpload"
-ACCESS_TOKEN = "AQXuy9kO6rkEOxFRREt9YtzPmJZ2NIoKmWDpA8rxI4Jys20TpV0Vyd1BsMgaRWSyTgFX5zo-WCpHZBrFwxWcsDgOGeZiJxYlNzBtMmCEaHE0SsOVA6qCUEub9M1dHERvDk2pO-lfOVVw391FnbLntsi0XuAsdBmUGZej_WFfVgBAedkSgceLKwSldA_qmxr45TZivunDNmsl49mKF_TMiQ2V7RCLIt4Iz8eFK9zrv7azf3pMaRybQC5S5QBMhkgKOlGFALAcv6EMuIxKm9Pw2K6-0E-xNaGHLUEqI-r19VNoNlgYHXjE-nb7MBIvvye7NlSG-VE15FbvkI9cUjB5Vg3bjERAlw" #Get Access Token from Linkedin developer account
+ACCESS_TOKEN = "AQXoKJDxWITsJzdhf544Hu8DTtwo7y8gClvt4I691LezX0SlIp-9JiEG7Mgnv2NxqIbPq0fW8gV07eja47JCnr-ubcJ2LXs56dSX0Z7Yjc4pdiCR8U36VMd9Idzq0ZeJrqGpt7aLb4gKPjGSjcsSyGaDCxcKOASazwZRt6iQxMOimGCJKl_CYUpr5jc6wM6SirPUAxUvC--0mZRD47E6-WE-o_dvOJpCBV9vkVv3ETFcUvLGgJwGmHVJr0irpmyEsrTocqBy1gNwCcxaPetdqHKgUMCsOd8A7euEs9zo1xzeGCPJXYjA4fkfOEIsf-vZ2CzgeIqEZT4pLfRBRpKVEhP7ZAkUsA" #Get Access Token from Linkedin developer account
 register_upload_url = "https://api.linkedin.com/v2/assets?action=registerUpload"
 share_url = API_ENDPOINT
 access_token = ACCESS_TOKEN
