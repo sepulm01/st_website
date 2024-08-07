@@ -269,7 +269,7 @@ CELERY_TASK_SERIALIZER = 'json'
 
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-CELERY_IMPORTS = ('bot_rrss.task',)
+CELERY_IMPORTS = ('bot_rrss.task','minicrm.task',)
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",

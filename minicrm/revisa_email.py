@@ -27,10 +27,10 @@ def analizar_spam(subject, body=None):
     - As business opportunities only email that related on securiry systems, quotations, computer vision, and Martín Sepúlveda is involve or named.
     - As advertising any offer, savigs promotion, sales or discount.
     - As spam any linkedin stuff, contact message, job offer etc, 
-    - As Facturas any reference in spanish word factura, facturación, etc. or Invoice in english.
+    - As facturas any reference in spanish word factura, facturación, etc. or Invoice in english.
     - and I'm not sure, the rest.
     
-    You will only respond with a JSON object with the key classification from this list ['business_opportunities', 'advertising', 'not_sure', 'spam' ] and Confidence. Do not provide explanations.
+    You will only respond with a JSON object with the key classification from this list ['business_opportunities','facturas', 'advertising', 'not_sure', 'spam' ] and Confidence. Do not provide explanations.
     """
     messages = [
         ChatMessage(role="system", content=prompt),
@@ -164,7 +164,17 @@ def extraer_email(string):
     match = re.search(patron, string)
     return match.group(1) if match else None
 
-def procesa(server, user, password, registrados):
+def procesa():
+    # Conectarse al servidor de correo
+    server = 'mail.recdata.cl'
+    user = 'martin.sepulveda@recdata.cl'
+    password = 'Rguax910+'
+
+    # Lista de tipos de contacto
+    tipos_contacto = clases
+    email_registados = Contact.objects.all()
+    registrados = [x.email for x in email_registados]
+    
     mail = imaplib.IMAP4_SSL(server,993)
     mail.login(user, password)
     mail.select('INBOX')
@@ -212,15 +222,6 @@ def procesa(server, user, password, registrados):
 #### fin funciones correo
 #############################
 
-# Conectarse al servidor de correo
-server = 'mail.recdata.cl'
-user = 'martin.sepulveda@recdata.cl'
-password = 'Rguax910+'
-
-# Lista de tipos de contacto
-tipos_contacto = clases
-email_registados = Contact.objects.all()
-registrados = [x.email for x in email_registados]
 
 
 
